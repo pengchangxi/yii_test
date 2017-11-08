@@ -1,35 +1,49 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\captcha\Captcha;
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+
+$this->title = '登录';
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<?php
 
-    <p>Please fill out the following fields to login:</p>
+$form = ActiveForm::begin([
+    'options'=>['class' => 'form form-horizontal'],
+    'action' => ['site/login'], 'method'=>'post',]);
+?>
+<?= $form->field($model,'username',[
+    'options'=>['class'=>'row cl'],
+    'template'=>'<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label><div class="formControls col-xs-8">{input}</div>',
+    'inputOptions' => ['class'=>'input-text size-L'],
+])->textInput(['placeholder'=>'用户名'])->label(false)?>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+<?= $form->field($model,'password',[
+    'options'=>['class'=>'row cl'],
+    'template'=>'<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label><div class="formControls col-xs-8">{input}</div>',
+    'inputOptions' => ['class'=>'input-text size-L']
+])->passwordInput(['placeholder'=>'密码'])->label(false)?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+<?= $form->field($model,'verifyCode',[
+    'options'=>['class'=>'row cl'],
+])->widget(Captcha::className(), [
+    'options'=>['class'=>'input-text size-L','style'=>'width:200px'],
+    'template' => '<div class="formControls col-xs-8 col-xs-offset-3">{input}&nbsp;{image}</div>',
+])->label(false) ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+<?= $form->field($model,'rememberMe',[
+    'options'=>['class'=>'row cl'],
+    'template'=>'<div class="formControls col-xs-8 col-xs-offset-3"><label for="online"><input type="checkbox" name="online" id="online" value="">使我保持登录状态</label></div>'
+])?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
-        </div>
+<div class="row cl">
+    <div class="formControls col-xs-8 col-xs-offset-3">
+        <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+        <input name="" type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
     </div>
 </div>
+
+<?php ActiveForm::end() ?>

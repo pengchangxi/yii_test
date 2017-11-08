@@ -11,6 +11,7 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
+    public $verifyCode;
     public $rememberMe = true;
 
     private $_user;
@@ -22,12 +23,23 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
+            // username password and verifyCode are both required
             [['username', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
+            ['verifyCode', 'captcha'],//验证码必须正确
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+        ];
+    }
+
+    //后面的是前面的注释，在rules验证的时候，如果报错，会把此处的后面的内容显示出来
+    public function attributeLabels(){
+        return [
+            'username'    => '账号',
+            'password'    => '密码',
+            'verifyCode'    =>'验证码',
+            'rememberMe'  => '记住密码',
         ];
     }
 
@@ -43,7 +55,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, '用户名或密码错误！');
             }
         }
     }
@@ -66,13 +78,14 @@ class LoginForm extends Model
      * Finds user by [[username]]
      *
      * @return User|null
+     * 根据用户名查询用户信息
      */
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
-        }
+            $this->_user = Admins::findByUsername($this->username);
 
+        }
         return $this->_user;
     }
 }
