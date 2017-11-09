@@ -20,12 +20,14 @@ use yii\widgets\ActiveForm;
     'options'=>['class'=>'row cl'],
 ])->textInput(['placeholder'=>'角色名称'])->label('角色名称：') ?>
 
+<?php if ($model->isNewRecord)$model->status = 1 ?> <!--当为新增时默认选中1-->
 <?= $form->field($model, 'status',[
     'options'=>['class'=>'row cl'],
 ])->radioList(['1'=>'启用','0'=>'禁用'])->label('状态：') ?>
 
 <?= $form->field($model, 'desc',[
     'options'=>['class'=>'row cl'],
+    'inputOptions'=>['class'=>'textarea'],
 ])->textarea(['rows'=>'3'])->label('备注：') ?>
 
 <div class="row cl">

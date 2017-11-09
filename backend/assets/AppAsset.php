@@ -9,6 +9,9 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
+    public $jsOptions = array(
+        'position' => \yii\web\View::POS_HEAD
+    );
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
@@ -22,6 +25,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'lib/html5shiv.js',
         'lib/respond.min.js',
+        //'lib/jquery/1.9.1/jquery.min.js',
         'lib/layer/2.4/layer.js',
         'static/h-ui/js/H-ui.min.js',
         'static/h-ui.admin/js/H-ui.admin.js',

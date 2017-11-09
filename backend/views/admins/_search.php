@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\RoleSearch */
+/* @var $model backend\models\AdminsSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -21,12 +21,11 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'name')->label('角色名称：') ?>
 
-    <?= $form->field($model, 'status')->dropDownList(
-        ['1'=>'启用','0'=>'禁用'],
-        ['prompt' => '请选择...']
-    )->label('状态：') ?>
+    <?= $form->field($model, 'username')->label('用户名：') ?>
+
+
+    <?= $form->field($model, 'mobile')->label('手机：') ?>
 
 
     <div class="form-group">

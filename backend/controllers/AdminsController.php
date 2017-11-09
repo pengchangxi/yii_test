@@ -3,17 +3,17 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Role;
-use backend\models\RoleSearch;
+use backend\models\Admins;
+use backend\models\AdminsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 
 /**
- * RoleController implements the CRUD actions for Role model.
+ * AdminsController implements the CRUD actions for Admins model.
  */
-class RoleController extends Controller
+class AdminsController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,12 +31,12 @@ class RoleController extends Controller
     }
 
     /**
-     * Lists all Role models.
+     * Lists all Admins models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new RoleSearch();
+        $searchModel = new AdminsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,8 +46,8 @@ class RoleController extends Controller
     }
 
     /**
-     * Displays a single Role model.
-     * @param integer $id
+     * Displays a single Admins model.
+     * @param string $id
      * @return mixed
      */
     public function actionView($id)
@@ -58,18 +58,18 @@ class RoleController extends Controller
     }
 
     /**
-     * Creates a new Role model.
+     * Creates a new Admins model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Role();
+        $model = new Admins();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success','添加成功!');
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $this->layout = 'popup.php';//定义一个新的模板
+            $this->layout='popup.php';
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -77,19 +77,19 @@ class RoleController extends Controller
     }
 
     /**
-     * Updates an existing Role model.
+     * Updates an existing Admins model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            var_dump($this->layout);exit();
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $this->layout = 'popup.php';//定义一个新的模板
+            $this->layout = 'popup.php';
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -97,9 +97,9 @@ class RoleController extends Controller
     }
 
     /**
-     * Deletes an existing Role model.
+     * Deletes an existing Admins model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -114,15 +114,15 @@ class RoleController extends Controller
     }
 
     /**
-     * Finds the Role model based on its primary key value.
+     * Finds the Admins model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Role the loaded model
+     * @param string $id
+     * @return Admins the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Role::findOne($id)) !== null) {
+        if (($model = Admins::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

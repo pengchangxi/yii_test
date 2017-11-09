@@ -4,13 +4,15 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Role */
+/* @var $model backend\models\Admins */
 
-$this->title = 'Create Role';
-$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
+$this->title = 'Create Admins';
+$this->params['breadcrumbs'][] = ['label' => 'Admins', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="role-create">
+<div class="admins-create">
+
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
