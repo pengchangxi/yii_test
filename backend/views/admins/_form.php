@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Role;
+use common\widgets\JsBlock;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Admins */
@@ -66,6 +67,34 @@ use backend\models\Role;
 </div>
 
 <?php ActiveForm::end(); ?>
+<?php JsBlock::begin() ?>
+<script>
+    $(function () {
+        $('form#w0').on('beforeSubmit', function (e) {
+            var $form = $(this);
+            $.ajax({
+                url: $form.attr('action'),
+                type: 'post',
+                data: $form.serialize(),
+                success: function (data) {
+                    if(data.code==false){
+                        layer.msg(data.message,{icon:2,time:1000});
+                        return false;
+                    }
+                    layer.msg(data.message,{icon:1,time:1000});
+                    setTimeout(function(){
+                        parent.window.location.href=data.url;
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }, 1000);
+                }
+            });
+        }).on('submit', function (e) {
+            e.preventDefault();
+        });
+    });
+</script>
+<?php JsBlock::end() ?>
 
 
 

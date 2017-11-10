@@ -87,7 +87,7 @@ class RoleController extends Controller
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->response->format=Response::FORMAT_JSON;//json返回
-            return ['code'=>true,'message'=>'添加成功','url'=>'index'];
+            return ['code'=>true,'message'=>'修改成功','url'=>'index'];
         } else {
             $this->layout = 'popup.php';//定义一个新的模板
             return $this->render('update', [

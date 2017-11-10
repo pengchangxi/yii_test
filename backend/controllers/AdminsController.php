@@ -67,7 +67,8 @@ class AdminsController extends Controller
         $model = new Admins();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->response->format=Response::FORMAT_JSON;//json返回
+            return ['code'=>true,'message'=>'添加成功','url'=>'index'];
         } else {
             $this->layout='popup.php';
             return $this->render('create', [
@@ -87,7 +88,8 @@ class AdminsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->response->format=Response::FORMAT_JSON;//json返回
+            return ['code'=>true,'message'=>'修改成功','url'=>'index'];
         } else {
             $this->layout = 'popup.php';
             return $this->render('update', [

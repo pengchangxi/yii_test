@@ -42,11 +42,6 @@ use common\widgets\JsBlock;
 <?php JsBlock::begin() ?>
 <script>
     $(function () {
-
-    })
-</script>
-<script>
-    $(function () {
         $('form#w0').on('beforeSubmit', function (e) {
             var $form = $(this);
             $.ajax({
