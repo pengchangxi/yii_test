@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
-    <div class="cl pd-5 bg-1 bk-gray mt-20" style="margin-bottom: 6px"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="show('添加管理员','create','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span> <!--<span class="r">共有数据：<strong>54</strong> 条</span>--> </div>
+    <div class="cl pd-5 bg-1 bk-gray mt-20" style="margin-bottom: 6px"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="show('添加','create','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加</a></span> <!--<span class="r">共有数据：<strong>54</strong> 条</span>--> </div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,//搜索框
@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // ['class' => 'yii\grid\SerialColumn'],//序号
             [
                 'class' => 'yii\grid\CheckboxColumn',
+                'contentOptions' => ['width' => '40px'],
                 'checkboxOptions' => function($model, $key, $index, $column) {
                     return ['value' => $model->id];
                 }

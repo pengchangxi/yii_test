@@ -66,8 +66,8 @@ class RoleController extends Controller
     {
         $model = new Role();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success','添加成功!');
-            return $this->redirect(['index']);
+            Yii::$app->response->format=Response::FORMAT_JSON;
+            return ['code'=>true,'message'=>'添加成功','url'=>'index'];
         } else {
             $this->layout = 'popup.php';//定义一个新的模板
             return $this->render('create', [
@@ -86,8 +86,8 @@ class RoleController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            var_dump($this->layout);exit();
-            return $this->redirect(['index']);
+            Yii::$app->response->format=Response::FORMAT_JSON;//json返回
+            return ['code'=>true,'message'=>'添加成功','url'=>'index'];
         } else {
             $this->layout = 'popup.php';//定义一个新的模板
             return $this->render('update', [
