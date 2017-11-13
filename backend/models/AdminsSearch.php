@@ -19,8 +19,13 @@ class AdminsSearch extends Admins
     {
         return [
             [['id', 'role_id', 'status', 'errornum'], 'integer'],
-            [['username', 'email', 'mobile', 'realname', 'nickname', 'password_hash', 'auth_key', 'avatar', 'created_at', 'updated_at', 'last_login_ip', 'last_login_time'], 'safe'],
+            [['username','created_start', 'created_end', 'email', 'mobile', 'realname', 'nickname', 'password_hash', 'auth_key', 'avatar', 'created_at', 'updated_at', 'last_login_ip', 'last_login_time'], 'safe'],
         ];
+    }
+
+    public function attributes(){
+        //添加属性
+        return array_merge(parent::attributes(),['created_start','created_end']);
     }
 
     /**
@@ -82,6 +87,20 @@ class AdminsSearch extends Admins
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
             ->andFilterWhere(['like', 'avatar', $this->avatar])
             ->andFilterWhere(['like', 'last_login_ip', $this->last_login_ip]);
+
+        if ($this->created_start!='' && $this->created_end==''){
+            $created = strtotime(date('Y-m-d 00:00:00',strtotime($this->created_start)));
+            $query->andFilterWhere(['>= ', 'created_at ', $created]);
+        }
+        if ($this->created_end!="" && $this->created_start==''){
+            $created= strtotime(date("Y-m-d 23:59:59",strtotime($this->created_end)));
+            $query->andFilterWhere(['<=', 'created_at', $created]);
+        }
+        if ($this->created_start!="" && $this->created_end!=""){
+            $start= strtotime(date("Y-m-d 00:00:00",strtotime($this->created_start)));
+            $end= strtotime(date("Y-m-d 23:59:59",strtotime($this->created_end)));
+            $query->andFilterWhere(['between', 'created_at', $start, $end]);
+        }
 
         return $dataProvider;
     }

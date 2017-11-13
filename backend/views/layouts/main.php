@@ -77,7 +77,7 @@ AppAsset::register($this);
             <dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul class="menu_list">
-                    <li><a data-href="#" data-title="菜单管理" href="javascript:void(0)">菜单管理</a></li>
+                    <li><a data-href="<?=Url::to(['menu/index'])?>" data-title="菜单管理" href="<?=Url::to(['menu/index'])?>">菜单管理</a></li>
                 </ul>
             </dd>
         </dl>

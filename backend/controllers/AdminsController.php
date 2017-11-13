@@ -13,7 +13,7 @@ use yii\web\Response;
 /**
  * AdminsController implements the CRUD actions for Admins model.
  */
-class AdminsController extends Controller
+class AdminsController extends BaseController
 {
     /**
      * @inheritdoc

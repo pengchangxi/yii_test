@@ -5,23 +5,17 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\RoleSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Roles';
+$this->title = 'Menus';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-container">
 
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
-
 
     <div class="cl pd-5 bg-1 bk-gray mt-20" style="margin-bottom: 6px">
         <span class="l">
-            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
-                <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
-            </a>
-            <a href="javascript:;" onclick="show('添加','create','800','500')" class="btn btn-primary radius">
+            <a href="javascript:;" onclick="show('添加','create','800','600')" class="btn btn-primary radius">
                 <i class="Hui-iconfont">&#xe600;</i> 添加
             </a>
         </span>
@@ -29,33 +23,27 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,//搜索框
-        'summary'=>'',
+        'summary' =>'',
         'columns' => [
-            // ['class' => 'yii\grid\SerialColumn'],//序号
-            [
-                'class' => 'yii\grid\CheckboxColumn',
-                'contentOptions' => ['width' => '40px'],
-                'checkboxOptions' => function($model, $key, $index, $column) {
-                    return ['value' => $model->id];
-                }
-            ],//checkbox
+            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'name',
-            [
-                'attribute' => 'status',
-                'label' => '状态',
-                'value' => function($model) {
-                    return $model['status'] == 1 ? '启用' : '停用';
-                },
-            ],
-            'desc',
+            'url:url',
+            'title',
+            'icon',
+            'status',
+            // 'remark',
+            // 'sort',
+            // 'pid',
+            // 'level',
+            // 'ismenu',
+            // 'islog',
+
             [
                 'class' => 'yii\grid\ActionColumn',
-                'header' => '操作',
-                'template' => '{update} {delete}',
-                'buttons'=>[
+                'header' =>'操作',
+                'template' =>'{update} {delete}',
+                'buttons' =>[
                     'update' => function ($url, $model, $key) {
                         return Html::a('<i class="Hui-iconfont">&#xe6df;</i>编辑', 'javascript:;', [
                             'title'=>'编辑',
@@ -71,12 +59,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         ] ) ;
                     },
                 ],
-
             ],
         ],
     ]); ?>
 </div>
-
 <script type="text/javascript">
 
     function show(title,url,w,h){

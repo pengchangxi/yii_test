@@ -29,17 +29,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-            'email:email',
-            'mobile',
+            [
+                'attribute'=>'role_id',
+                'value'=>'role.name',
+            ],
             'realname',
-            // 'nickname',
-            // 'password_hash',
-            // 'auth_key',
-            // 'avatar',
-            // 'created_at',
+            'mobile',
+            'email:email',
+            //'created_at',
+            [
+                'attribute' => 'created_at',
+                'label'=>'添加时间',
+                'value'=> function($model){
+                        return  date('Y-m-d H:i:s',$model->created_at);   //主要通过此种方式实现
+                    },
+            ],
+            [
+                'attribute' => 'status',
+                'label' => '状态',
+                'value' =>function($model){
+                    return $model['status'] == 1 ? '启用' : '停用';
+                },
+            ],
+
             // 'updated_at',
-            // 'role_id',
-            // 'status',
             // 'last_login_ip',
             // 'last_login_time',
             // 'errornum',
@@ -95,5 +108,4 @@ $this->params['breadcrumbs'][] = $this->title;
             });
         });
     }
-
 </script>

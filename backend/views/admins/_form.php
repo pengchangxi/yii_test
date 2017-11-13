@@ -20,23 +20,23 @@ use common\widgets\JsBlock;
 
 <?= $form->field($model, 'username',[
     'options'=>['class'=>'row cl'],
-])->textInput(['maxlength' => true]) ?>
+])->textInput(['maxlength' => true])->label('用户名：') ?>
 
 <?= $form->field($model, 'email',[
     'options'=>['class'=>'row cl'],
-])->textInput(['maxlength' => true]) ?>
+])->textInput(['maxlength' => true])->label('Email：') ?>
 
 <?= $form->field($model, 'mobile',[
     'options'=>['class'=>'row cl'],
-])->textInput(['maxlength' => true]) ?>
+])->textInput(['maxlength' => true])->label('手机：') ?>
 
 <?= $form->field($model, 'realname',[
     'options'=>['class'=>'row cl'],
-])->textInput(['maxlength' => true]) ?>
+])->textInput(['maxlength' => true])->label('真实姓名：') ?>
 
 <?= $form->field($model, 'nickname',[
     'options'=>['class'=>'row cl'],
-])->textInput(['maxlength' => true]) ?>
+])->textInput(['maxlength' => true])->label('昵称：') ?>
 
 <?php if ($model->isNewRecord){
     echo $form->field($model,'password_hash',[
@@ -55,9 +55,10 @@ use common\widgets\JsBlock;
         ->column(),
     ['prompt'=>'请选择...'])->label('角色:')?>
 
+<?php if ($model->isNewRecord)$model->status = 1 ?> <!--当为新增时默认选中1-->
 <?= $form->field($model, 'status',[
     'options'=>['class'=>'row cl'],
-])->textInput() ?>
+])->radioList(['1'=>'启用','0'=>'禁用'])->label('状态：') ?>
 
 
 <div class="row cl">

@@ -3,17 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Role;
-use backend\models\RoleSearch;
+use backend\models\Menu;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Response;
 
 /**
- * RoleController implements the CRUD actions for Role model.
+ * MenuController implements the CRUD actions for Menu model.
  */
-class RoleController extends BaseController
+class MenuController extends BaseController
 {
     /**
      * @inheritdoc
@@ -31,22 +30,22 @@ class RoleController extends BaseController
     }
 
     /**
-     * Lists all Role models.
+     * Lists all Menu models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new RoleSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Menu::find(),
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Role model.
+     * Displays a single Menu model.
      * @param integer $id
      * @return mixed
      */
@@ -58,18 +57,18 @@ class RoleController extends BaseController
     }
 
     /**
-     * Creates a new Role model.
+     * Creates a new Menu model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Role();
+        $model = new Menu();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->response->format=Response::FORMAT_JSON;
-            return ['code'=>true,'message'=>'添加成功','url'=>'index'];
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $this->layout = 'popup.php';//定义一个新的模板
+            $this->layout = 'popup.php';
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -77,7 +76,7 @@ class RoleController extends BaseController
     }
 
     /**
-     * Updates an existing Role model.
+     * Updates an existing Menu model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -85,11 +84,11 @@ class RoleController extends BaseController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->response->format=Response::FORMAT_JSON;//json返回
-            return ['code'=>true,'message'=>'修改成功','url'=>'index'];
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $this->layout = 'popup.php';//定义一个新的模板
+            $this->layout = 'popup.php';
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -97,32 +96,28 @@ class RoleController extends BaseController
     }
 
     /**
-     * Deletes an existing Role model.
+     * Deletes an existing Menu model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        Yii::$app->response->format=Response::FORMAT_JSON;
-        $edit = $this->findModel($id)->delete();
-        if ($edit){
-            return ['code'=>true,'message'=>'删除成功'];
-        }else{
-            return ['code'=>false,'message'=>'删除失败'];
-        }
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Role model based on its primary key value.
+     * Finds the Menu model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Role the loaded model
+     * @return Menu the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Role::findOne($id)) !== null) {
+        if (($model = Menu::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

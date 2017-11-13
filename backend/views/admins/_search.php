@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\AdminsSearch */
@@ -25,7 +26,16 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'username')->label('用户名：') ?>
 
 
-    <?= $form->field($model, 'mobile')->label('手机：') ?>
+    <?= $form->field($model, 'created_start')->widget(DatePicker::className(), [
+        'dateFormat' => 'yyyy-MM-dd',
+        //'language' => 'ru',
+        'options' => ['class' => 'form-control input-width-small'],
+    ])->label('申请时间:') ?>
+
+    <?= $form->field($model,'created_end')->widget(DatePicker::className(),[
+        'dateFormat' => 'yyyy-MM-dd',
+        'options'=>['class'=>'form-control input-width-small'],
+    ])->label('-')?>
 
 
     <div class="form-group">
