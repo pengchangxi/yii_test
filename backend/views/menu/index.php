@@ -30,20 +30,44 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'url:url',
             'title',
-            'icon',
-            'status',
-            // 'remark',
-            // 'sort',
-            // 'pid',
-            // 'level',
-            // 'ismenu',
-            // 'islog',
+            [
+                'attribute' => 'ismenu',
+                'content' => function($model) {
+                    return $model['ismenu'] == 1 ?
+                        Html::tag('span','是',['class'=>'label label-success radius']) :
+                        Html::tag('span','否',['class'=>'label label-warning radius']);
+                },
+
+            ],
+            [
+                'attribute' => 'islog',
+                'content' => function($model){
+                    return $model['islog'] == 1 ?
+                        Html::tag('span','是',['class'=>'label label-success radius']) :
+                        Html::tag('span','否',['class'=>'label label-warning radius']);
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'content' => function($model){
+                    return $model['status'] == 1 ?
+                        Html::tag('span','显示',['class'=>'label label-success radius']) :
+                        Html::tag('span','隐藏',['class'=>'label label-warning radius']);
+                }
+            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' =>'操作',
-                'template' =>'{update} {delete}',
+                'template' =>'{create} {update} {delete}',
                 'buttons' =>[
+                    'create' => function ($url, $model, $key) {
+                        return Html::a('<i class="Hui-iconfont">&#xe600;</i>添加子节点 ' , 'javascript:;', [
+                            'title' => '添加子节点',
+                            'onclick' => "show('添加子节点','".Url::toRoute(['menu/create', 'pid' => $model["id"]])."','800','600')",
+                            'data-pjax' => '0',
+                        ]);
+                    },
                     'update' => function ($url, $model, $key) {
                         return Html::a('<i class="Hui-iconfont">&#xe6df;</i>编辑', 'javascript:;', [
                             'title'=>'编辑',
@@ -58,6 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-method'=>'post',              //POST传值
                         ] ) ;
                     },
+
                 ],
             ],
         ],

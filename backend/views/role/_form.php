@@ -42,27 +42,36 @@ use common\widgets\JsBlock;
 <?php JsBlock::begin() ?>
 <script>
     $(function () {
-        $('form#w0').on('beforeSubmit', function (e) {
-            var $form = $(this);
-            $.ajax({
-                url: $form.attr('action'),
-                type: 'post',
-                data: $form.serialize(),
-                success: function (data) {
-                    if(data.code==false){
-                        layer.msg(data.message,{icon:2,time:1000});
-                        return false;
-                    }
-                    layer.msg(data.message,{icon:1,time:1000});
-                    setTimeout(function(){
-                        parent.window.location.href=data.url;
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                    }, 1000);
+        $("form#w0").validate({
+            rules:{
+                name:{
+                    required:true,
+                    minlength:2,
+                    maxlength:16
                 }
-            });
-        }).on('submit', function (e) {
-            e.preventDefault();
+            },
+            onkeyup:false,
+            focusCleanup:true,
+            success:"valid",
+            submitHandler:function(form){
+                $(form).ajaxSubmit({
+                    type: 'post', // 提交方式 get/post
+                    url: $(this).attr('action'), // 需要提交的 url
+                    success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                        if(data.code==false){
+                            layer.msg(data.message,{icon:2,time:2000});
+                            return false;
+                        }else {
+                            layer.msg(data.message,{icon:1,time:1000});
+                            setTimeout(function(){
+                                parent.window.location.href=data.url;
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(index);
+                            }, 1000);
+                        }
+                    }
+                });
+            }
         });
     });
 </script>

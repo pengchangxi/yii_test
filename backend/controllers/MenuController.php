@@ -92,7 +92,8 @@ class MenuController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->response->format=Response::FORMAT_JSON;//json返回
+            return ['code'=>true,'message'=>'修改成功','url'=>'index'];
         } else {
             $this->layout = 'popup.php';
             return $this->render('update', [
@@ -109,9 +110,13 @@ class MenuController extends BaseController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        Yii::$app->response->format=Response::FORMAT_JSON;
+        $edit = $this->findModel($id)->delete();
+        if ($edit){
+            return ['code'=>true,'message'=>'删除成功'];
+        }else{
+            return ['code'=>false,'message'=>'删除失败'];
+        }
     }
 
     /**

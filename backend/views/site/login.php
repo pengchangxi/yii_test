@@ -14,10 +14,7 @@ $form = ActiveForm::begin([
     'options'=>['class' => 'form form-horizontal'],
     'action' => ['site/login'], 'method'=>'post',]);
 ?>
-<!--<div class="alert alert-danger display-hide">
-    <button class="close" data-close="alert"></button>
-    <span> 用户名或密码错误 </span>
-</div>-->
+
 <?= $form->field($model,'username',[
     'options'=>['class'=>'row cl'],
     'template'=>'<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label><div class="formControls col-xs-4">{input}</div><div class="formControls col-xs-4">{error}</div>',
