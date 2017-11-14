@@ -60,4 +60,19 @@ class Menu extends \yii\db\ActiveRecord
             'islog' => '是否日志',
         ];
     }
+
+    public function beforeSave($insert){
+        if(parent::beforeSave($insert)) {
+            if($insert) {
+                $pmenu = Menu::find()->where(['id'=>$this->pid])->one();
+                $this->level = $pmenu ? $pmenu->level + 1 : 0;//在父级级别的基础上+1
+            }
+            else {
+                //$this->updated_at = date('Y-m-d H:i:s');
+            }
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

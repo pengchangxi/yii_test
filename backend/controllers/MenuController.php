@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
@@ -63,12 +64,17 @@ class MenuController extends BaseController
      */
     public function actionCreate()
     {
+        $pid = Yii::$app->request->get('pid', 0);
         $model = new Menu();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->response->format=Response::FORMAT_JSON;
+            return ['code'=>true,'message'=>'添加成功','url'=>'index'];
         } else {
             $this->layout = 'popup.php';
+            /* 设置默认值 */
+            $model->loadDefaultValues();
+            $model->pid = $pid;
             return $this->render('create', [
                 'model' => $model,
             ]);

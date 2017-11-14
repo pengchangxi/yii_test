@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Menu;
 use common\helpers\ArrayHelper;
+use common\widgets\JsBlock;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Menu */
@@ -41,7 +42,7 @@ use common\helpers\ArrayHelper;
 
     <?= $form->field($model, 'sort',[
         'options'=>['class'=>'row cl'],
-        'inputOptions'=>['type'=>'number','min'=>"1"],
+        'inputOptions'=>['type'=>'number','min'=>"0"],
     ])->textInput() ?>
 
     <?php if ($model->isNewRecord)$model->status = 1 ?> <!--当为新增时默认选中1-->
@@ -68,3 +69,32 @@ use common\helpers\ArrayHelper;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php JsBlock::begin() ?>
+<script>
+    $(function () {
+        $('form#w0').on('beforeSubmit', function (e) {
+            var $form = $(this);
+            $.ajax({
+                url: $form.attr('action'),
+                type: 'post',
+                data: $form.serialize(),
+                success: function (data) {
+                    if(data.code==false){
+                        layer.msg(data.message,{icon:2,time:1000});
+                        return false;
+                    }
+                    layer.msg(data.message,{icon:1,time:1000});
+                    setTimeout(function(){
+                        parent.window.location.href=data.url;
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }, 1000);
+                }
+            });
+        }).on('submit', function (e) {
+            e.preventDefault();
+        });
+    });
+</script>
+<?php JsBlock::end() ?>

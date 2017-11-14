@@ -2,7 +2,6 @@
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
@@ -15,23 +14,27 @@ $form = ActiveForm::begin([
     'options'=>['class' => 'form form-horizontal'],
     'action' => ['site/login'], 'method'=>'post',]);
 ?>
+<!--<div class="alert alert-danger display-hide">
+    <button class="close" data-close="alert"></button>
+    <span> 用户名或密码错误 </span>
+</div>-->
 <?= $form->field($model,'username',[
     'options'=>['class'=>'row cl'],
-    'template'=>'<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label><div class="formControls col-xs-8">{input}</div>',
+    'template'=>'<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label><div class="formControls col-xs-4">{input}</div><div class="formControls col-xs-4">{error}</div>',
     'inputOptions' => ['class'=>'input-text size-L'],
 ])->textInput(['placeholder'=>'用户名'])->label(false)?>
 
 <?= $form->field($model,'password',[
     'options'=>['class'=>'row cl'],
-    'template'=>'<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label><div class="formControls col-xs-8">{input}</div>',
+    'template'=>'<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label><div class="formControls col-xs-4">{input}</div><div class="formControls col-xs-4">{error}</div>',
     'inputOptions' => ['class'=>'input-text size-L']
 ])->passwordInput(['placeholder'=>'密码'])->label(false)?>
 
 <?= $form->field($model,'verifyCode',[
     'options'=>['class'=>'row cl'],
 ])->widget(Captcha::className(), [
-    'options'=>['class'=>'input-text size-L','style'=>'width:200px'],
-    'template' => '<div class="formControls col-xs-8 col-xs-offset-3">{input}&nbsp;{image}</div>',
+    'options'=>['class'=>'input-text size-L','style'=>'width:100px'],
+    'template' => '<div class="formControls col-xs-5 col-xs-offset-3">{input}{image}</div>',
 ])->label(false) ?>
 
 <?= $form->field($model,'rememberMe',[

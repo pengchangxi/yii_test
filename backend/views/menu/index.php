@@ -47,14 +47,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'update' => function ($url, $model, $key) {
                         return Html::a('<i class="Hui-iconfont">&#xe6df;</i>编辑', 'javascript:;', [
                             'title'=>'编辑',
-                            'onclick'=>"show('编辑','".Url::toRoute(['role/update', 'id' => $model["id"]])."','','510')",
+                            'onclick'=>"show('编辑','".Url::toRoute(['menu/update', 'id' => $model["id"]])."','800','600')",
                             'data-method' => 'post',
                             'data-pjax'=>'0']);
                     },
                     'delete'=> function ($url, $model, $key){
                         return  Html::a('<i class="Hui-iconfont">&#xe6e2;</i>删除', 'javascript:;',[
                             'title'=>'删除',
-                            'onclick'=>"del(this,'".Url::toRoute(['role/delete', 'id' => $model["id"]])."')" ,
+                            'onclick'=>"del(this,'".Url::toRoute(['menu/delete', 'id' => $model["id"]])."')" ,
                             'data-method'=>'post',              //POST传值
                         ] ) ;
                     },

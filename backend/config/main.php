@@ -45,5 +45,7 @@ return [
         ],
 
     ],
+    'language' => 'zh-CN',
     'params' => $params,
+    'timeZone'=>'Asia/shanghai'//设置时区
 ];

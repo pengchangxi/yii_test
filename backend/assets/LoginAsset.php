@@ -20,7 +20,7 @@ class LoginAsset extends AssetBundle
     public $js = [
         'lib/html5shiv.js',
         'lib/respond.min.js',
-        //'lib/jquery/1.9.1/jquery.min.js',
+        'lib/layer/2.4/layer.js',
         'static/h-ui/js/H-ui.min.js'
 
     ];
