@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use common\helpers\Tree;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
@@ -36,9 +37,9 @@ class MenuController extends BaseController
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Menu::find(),
-        ]);
+        $model = new Menu();
+        $dataProvider = $model->search();
+        //var_dump($dataProvider);exit();
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -67,16 +68,23 @@ class MenuController extends BaseController
         $pid = Yii::$app->request->get('pid', 0);
         $model = new Menu();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format=Response::FORMAT_JSON;
-            return ['code'=>true,'message'=>'添加成功','url'=>'index'];
+            if ($model->validate()){
+                $model->save();
+                return ['code'=>true,'message'=>'添加成功','url'=>'index'];
+            }else{
+                return ['code'=>false,'message'=>array_values($model->getFirstErrors())[0]];
+            }
         } else {
             $this->layout = 'popup.php';
-            /* 设置默认值 */
-            $model->loadDefaultValues();
             $model->pid = $pid;
+            $arr = Menu::find()->asArray()->all();
+            $treeObj = new Tree($arr);
+            //var_dump($treeObj->getTree());exit();
             return $this->render('create', [
                 'model' => $model,
+                'treeArr' => $treeObj->getTree(),
             ]);
         }
     }
@@ -91,13 +99,21 @@ class MenuController extends BaseController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format=Response::FORMAT_JSON;//json返回
-            return ['code'=>true,'message'=>'修改成功','url'=>'index'];
+            if ($model->validate()){
+                $model->save();
+                return ['code'=>true,'message'=>'修改成功','url'=>'index'];
+            }else{
+                return ['code'=>false,'message'=>array_values($model->getFirstErrors()[0])];
+            }
         } else {
             $this->layout = 'popup.php';
+            $arr = Menu::find()->asArray()->all();
+            $treeObj = new Tree($arr);
             return $this->render('update', [
                 'model' => $model,
+                'treeArr' => $treeObj->getTree(),
             ]);
         }
     }

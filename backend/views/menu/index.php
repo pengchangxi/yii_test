@@ -23,13 +23,24 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'summary' =>'',
+        //'filterModel' => $searchModel,
+        'filterPosition' => GridView::FILTER_POS_FOOTER,
+        'layout' => '{items}',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            [
+                'attribute' => 'id',
+                'label' => 'ID',
+            ],
+            //'pid',
+            //'name',
+            [
+                'attribute' => 'name',
+                'format' => 'raw',
+                'label' => '菜单名称',
+            ],
             'url:url',
-            'title',
             [
                 'attribute' => 'ismenu',
                 'content' => function($model) {
@@ -55,12 +66,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         Html::tag('span','隐藏',['class'=>'label label-warning radius']);
                 }
             ],
-
             [
                 'class' => 'yii\grid\ActionColumn',
-                'header' =>'操作',
-                'template' =>'{create} {update} {delete}',
-                'buttons' =>[
+                'header' => '操作',
+                'template' => '{create} {update} {delete}',
+                'buttons' => [
                     'create' => function ($url, $model, $key) {
                         return Html::a('<i class="Hui-iconfont">&#xe600;</i>添加子节点 ' , 'javascript:;', [
                             'title' => '添加子节点',
@@ -82,7 +92,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-method'=>'post',              //POST传值
                         ] ) ;
                     },
-
                 ],
             ],
         ],

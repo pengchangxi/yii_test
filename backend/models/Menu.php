@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
+use common\helpers\Tree;
 
 /**
  * This is the model class for table "menu".
@@ -36,7 +38,7 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             [['status', 'sort', 'pid', 'level', 'ismenu', 'islog'], 'integer'],
-            [['url', 'title', 'icon'], 'string', 'max' => 50],
+            [['url', 'name', 'icon'], 'string', 'max' => 50],
             [['remark'], 'string', 'max' => 255],
         ];
     }
@@ -49,7 +51,7 @@ class Menu extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'url' => 'Url',
-            'title' => '节点名称',
+            'name' => '节点名称',
             'icon' => 'Icon',
             'status' => '状态',
             'remark' => '备注',
@@ -74,5 +76,29 @@ class Menu extends \yii\db\ActiveRecord
         }else {
             return false;
         }
+    }
+
+    public function search()
+    {
+        $query = Menu::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $arr = $query->asArray()->all();
+        $treeObj = new Tree(\yii\helpers\ArrayHelper::toArray($arr));
+        $treeObj->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─ ', '&nbsp;&nbsp;&nbsp;└─ '];
+        $treeObj->nbsp = '&nbsp;&nbsp;&nbsp;';
+        $dataProvider = new \yii\data\ArrayDataProvider([
+            'allModels' => $treeObj->getGridTree(),
+            'pagination' => [
+                'pageSize' => 50,
+            ],
+        ]);
+
+        return $dataProvider;
     }
 }

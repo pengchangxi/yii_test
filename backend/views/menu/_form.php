@@ -21,15 +21,14 @@ use common\widgets\JsBlock;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'title',[
+    <?= $form->field($model, 'name',[
         'options'=>['class'=>'row cl'],
     ])->textInput(['maxlength' => true])->label('节点名称：') ?>
 
     <?= $form->field($model, 'pid',[
         'options'=>['class'=>'row cl'],
-    ])->dropDownList(
-        ArrayHelper::merge(['0'=>'顶级节点'],ArrayHelper::listDataLevel( \backend\models\Menu::find()->asArray()->all(), 'id', 'title','id','pid'))
-        )->label('上级节点：') ?>
+        'inputOptions' =>['style'=>'width:auto'],
+    ])->dropDownList($treeArr, ['encode' => false,'prompt'=>'顶级节点'])->label('上级节点：') ?>
 
     <?= $form->field($model, 'url',[
         'options'=>['class'=>'row cl'],
