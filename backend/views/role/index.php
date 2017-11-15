@@ -54,8 +54,16 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{update} {delete}',
+                'template' => '{authorize} {update} {delete}',
                 'buttons'=>[
+                    'authorize' =>function($url,$model,$key){
+                        return Html::a('<i class="Hui-iconfont">&#xe63f;</i>权限设置', 'javascript:;', [
+                            'title'=>'权限设置',
+                            'onclick'=>"show('权限设置','".Url::toRoute(['role/authorize', 'id' => $model["id"]])."','','510')",
+                            'data-method' => 'post',
+                            'data-pjax'=>'0']);
+
+                    },
                     'update' => function ($url, $model, $key) {
                         return Html::a('<i class="Hui-iconfont">&#xe6df;</i>编辑', 'javascript:;', [
                             'title'=>'编辑',

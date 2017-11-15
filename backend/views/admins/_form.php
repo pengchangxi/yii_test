@@ -46,7 +46,7 @@ use common\widgets\JsBlock;
 
 <?= $form->field($model, 'role_id',[
     'options'=>['class'=>'row cl'],
-    //'inputOptions'=>['class'=>'select']
+    'inputOptions'=>['style'=>'width:auto']
 ])->dropDownList(
     Role::find()
         ->select(['name'])

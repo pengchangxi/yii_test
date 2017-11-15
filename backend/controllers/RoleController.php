@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Access;
 use Yii;
 use backend\models\Role;
 use backend\models\RoleSearch;
@@ -138,5 +139,16 @@ class RoleController extends BaseController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionAuthorize()
+    {
+        $access = new Access();
+        $category = $access->authoirz();
+        $this->layout = 'popup.php';//定义一个新的模板
+        return $this->render('authorize', [
+            'category' => $category,
+        ]);
+
     }
 }

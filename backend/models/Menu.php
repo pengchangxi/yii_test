@@ -5,6 +5,7 @@ namespace backend\models;
 use Yii;
 use yii\data\ActiveDataProvider;
 use common\helpers\Tree;
+use yii\caching\Cache;
 
 /**
  * This is the model class for table "menu".
@@ -100,5 +101,23 @@ class Menu extends \yii\db\ActiveRecord
         ]);
 
         return $dataProvider;
+    }
+
+    /**
+     * 更新缓存
+     * @param  $data
+     * @return array
+     */
+    public function menuCache($data = null)
+    {
+        $cache = Yii::$app->cache;
+        if (empty($data)) {
+            $data = Menu::find()->asArray()->all();
+            //var_dump($data);exit();
+            $cache->set('Menu', $data,0);
+        } else {
+            $cache->set('Menu', $data,0);
+        }
+        return $data;
     }
 }
