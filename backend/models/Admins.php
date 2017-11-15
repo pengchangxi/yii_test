@@ -40,7 +40,9 @@ class Admins extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['password_hash'], 'required'],
+            [['username'], 'unique'],
+            ['username','required'],
+            ['email','email'],
             [['created_at', 'updated_at', 'last_login_time'], 'safe'],
             [['role_id', 'status', 'errornum'], 'integer'],
             [['username', 'email', 'realname', 'nickname'], 'string', 'max' => 32],
@@ -48,7 +50,7 @@ class Admins extends \yii\db\ActiveRecord
             [['password_hash', 'auth_key'], 'string', 'max' => 64],
             [['avatar'], 'string', 'max' => 255],
             [['last_login_ip'], 'string', 'max' => 15],
-            [['username'], 'unique'],
+
         ];
     }
 

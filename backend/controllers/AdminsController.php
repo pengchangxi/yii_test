@@ -66,9 +66,14 @@ class AdminsController extends BaseController
     {
         $model = new Admins();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format=Response::FORMAT_JSON;//json返回
-            return ['code'=>true,'message'=>'添加成功','url'=>'index'];
+            if ($model->validate()){
+                $model->save();
+                return ['code'=>true,'message'=>'添加成功','url'=>'index'];
+            }else{
+                return ['code'=>false,'message'=>array_values($model->getFirstErrors())[0]];
+            }
         } else {
             $this->layout='popup.php';
             return $this->render('create', [
@@ -87,9 +92,14 @@ class AdminsController extends BaseController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format=Response::FORMAT_JSON;//json返回
-            return ['code'=>true,'message'=>'修改成功','url'=>'index'];
+            if ($model->validate()){
+                $model->save();
+                return ['code'=>true,'message'=>'修改成功','url'=>'index'];
+            }else{
+                return ['code'=>true,'message'=>array_values($model->getFirstErrors()[0])];
+            }
         } else {
             $this->layout = 'popup.php';
             return $this->render('update', [

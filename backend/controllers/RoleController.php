@@ -71,7 +71,7 @@ class RoleController extends BaseController
                 $model->save();
                 return ['code'=>true,'message'=>'添加成功','url'=>'index'];
             }else{
-                return ['code'=>false,'message'=>$model->getErrors()['name']['0']];
+                return ['code'=>false,'message'=>array_values($model->getFirstErrors()[0])];
             }
         } else {
             $this->layout = 'popup.php';//定义一个新的模板
@@ -92,11 +92,11 @@ class RoleController extends BaseController
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) ) {
             Yii::$app->response->format=Response::FORMAT_JSON;//json返回
-            if ($model->validate()){
-                $model->save();
+            if ($model->validate()){//表单验证
+                $model->save();//这边简写了没有判断
                 return ['code'=>true,'message'=>'修改成功','url'=>'index'];
             }else{
-               return ['code'=>false,'message'=>$model->getErrors()['name']['0']] ;
+                return ['code'=>false,'message'=>array_values($model->getFirstErrors()[0])];
             }
 
         } else {
