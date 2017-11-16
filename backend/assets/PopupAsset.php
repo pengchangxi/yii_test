@@ -15,6 +15,7 @@ class PopupAsset extends AssetBundle
         'lib/Hui-iconfont/1.0.8/iconfont.css',
         'static/h-ui.admin/skin/default/skin.css',
         'static/h-ui.admin/css/style.css',
+        '/lib/jquery.treetable/jquery.treeTable.css'
 
     ];
 
@@ -24,6 +25,7 @@ class PopupAsset extends AssetBundle
         'lib/layer/2.4/layer.js',
         'static/h-ui/js/H-ui.min.js',
         'static/h-ui.admin/js/H-ui.admin.js',
+        '/lib/jquery.treetable/jquery.treetable.js',
         'lib/jquery.validation/1.14.0/jquery.validate.js',
         'lib/jquery.validation/1.14.0/validate-methods.js',
         'lib/jquery.validation/1.14.0/messages_zh.js',

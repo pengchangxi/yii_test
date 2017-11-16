@@ -113,7 +113,6 @@ class Menu extends \yii\db\ActiveRecord
         $cache = Yii::$app->cache;
         if (empty($data)) {
             $data = Menu::find()->asArray()->all();
-            //var_dump($data);exit();
             $cache->set('Menu', $data,0);
         } else {
             $cache->set('Menu', $data,0);

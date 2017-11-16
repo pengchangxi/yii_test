@@ -81,10 +81,8 @@ class Access extends \yii\db\ActiveRecord
                    <td style='padding-left:10px;'>\$spacer<input type='checkbox' name='menuId[]' value='\$id' level='\$level' \$checked onclick='javascript:checknode(this);'> \$name</td>
     			</tr>";
         $tree->init($result);
-        var_dump($result);exit();
 
         $category = $tree->getTree(0, $str);
-        var_dump($category);exit();
 
         return $category;
     }
