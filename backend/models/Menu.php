@@ -12,7 +12,7 @@ use yii\caching\Cache;
  *
  * @property integer $id
  * @property string $url
- * @property string $title
+ * @property string $name
  * @property string $icon
  * @property integer $status
  * @property string $remark
