@@ -40,7 +40,7 @@ use common\widgets\JsBlock;
 
 <?= $form->field($model,'password',[
         'options'=>['class'=>'row cl'],
-    ])->passwordInput(['placeholder'=>'请输入密码'])->label('密码:')
+    ])->passwordInput(['placeholder'=>'修改时,密码不变请放空'])->label('密码:')
 ?>
 
 <?= $form->field($model, 'role_id',[

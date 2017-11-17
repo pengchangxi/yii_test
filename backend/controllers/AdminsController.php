@@ -65,6 +65,7 @@ class AdminsController extends BaseController
     public function actionCreate()
     {
         $model = new Admins();
+        $model->scenario = 'create';
 
         if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format=Response::FORMAT_JSON;//json返回
@@ -91,6 +92,7 @@ class AdminsController extends BaseController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'update';
 
         if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format=Response::FORMAT_JSON;//json返回

@@ -43,13 +43,15 @@ class Admins extends \yii\db\ActiveRecord
             [['username'], 'unique'],
             ['username','required'],
             ['email','email'],
-            [['created_at', 'updated_at', 'last_login_time','password'], 'safe'],
+            [['created_at', 'updated_at', 'last_login_time'], 'safe'],
             [['role_id', 'status', 'errornum'], 'integer'],
             [['username', 'email', 'realname', 'nickname'], 'string', 'max' => 32],
             [['mobile'], 'string', 'max' => 12],
             [['password_hash', 'auth_key'], 'string', 'max' => 64],
             [['avatar'], 'string', 'max' => 255],
             [['last_login_ip'], 'string', 'max' => 15],
+            [['password'], 'required', 'on' => ['create']],
+            ['role_id','required']
 
         ];
     }
@@ -57,6 +59,13 @@ class Admins extends \yii\db\ActiveRecord
     public function attributes(){
         //添加属性
         return array_merge(parent::attributes(),['password']);
+    }
+
+    public function scenarios() {
+        $scenarios = parent::scenarios();
+        $scenarios['create'] = ['username', 'email', 'password'];
+        $scenarios['update'] = ['username', 'email', 'password'];
+        return $scenarios;
     }
 
     /**
@@ -105,11 +114,12 @@ class Admins extends \yii\db\ActiveRecord
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
+    //保存之前执行的方法
     public function beforeSave($insert)
     {
         if(parent::beforeSave($insert)) {
             if ($this->password){
-                $this->password_hash = Yii::$app->security->generatePasswordHash($this->password);
+                $this->setPassword($this->password);
                 $this->generateAuthKey();
             }
             unset($this->password);
