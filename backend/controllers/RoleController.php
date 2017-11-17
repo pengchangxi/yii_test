@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Access;
+use backend\models\Menu;
 use Yii;
 use backend\models\Role;
 use backend\models\RoleSearch;
@@ -143,6 +144,35 @@ class RoleController extends BaseController
 
     public function actionAuthorize()
     {
+        if (Yii::$app->request->post()) {
+            $roleId = Yii::$app->request->get("id");
+            if (!$roleId) {
+                $this->error('需要授权的角色不存在！');
+            }
+            $accessModel = new Access();
+            if (is_array(Yii::$app->request->post('menuId')) && count(Yii::$app->request->post('menuId')) > 0) {
+
+                $accessModel::deleteAll(["role_id" => $roleId, 'type' => 'admin_url']);
+                foreach ($_POST['menuId'] as $menuId) {
+                    $menuModel = new Menu();
+                    $menu = $menuModel::find()->select(['url'])->where(["id" => $menuId])->one();
+                    //var_dump($menu);exit();
+                    if ($menu) {
+                        $name   = $menu['url'];
+                        Yii::$app->db->createCommand()->insert('access', [
+                            'role_id' => $roleId,
+                            'rule_name' => $name,
+                            'type' =>'admin_url',
+                        ])->execute();
+                    }
+                }
+                $this->success("授权成功！",'index');
+            } else {
+                //当没有数据时，清除当前角色授权
+                $accessModel::deleteAll(["role_id" => $roleId]);
+                $this->error("没有接收到数据，执行清除授权成功！");
+            }
+        }
         $access = new Access();
         $category = $access->authoirz();
         $this->layout = 'popup.php';//定义一个新的模板

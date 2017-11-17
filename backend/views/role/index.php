@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'authorize' =>function($url,$model,$key){
                         return Html::a('<i class="Hui-iconfont">&#xe63f;</i>权限设置', 'javascript:;', [
                             'title'=>'权限设置',
-                            'onclick'=>"show('权限设置','".Url::toRoute(['role/authorize', 'id' => $model["id"]])."','','510')",
+                            'onclick'=>"show('权限设置','".Url::toRoute(['role/authorize', 'id' => $model["id"]])."','','680')",
                             'data-method' => 'post',
                             'data-pjax'=>'0']);
 

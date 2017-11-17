@@ -49,8 +49,9 @@ class Access extends \yii\db\ActiveRecord
         ];
     }
 
+    //授权
     public function authoirz(){
-        //$AuthAccess     = new Access();
+
         $adminMenuModel = new Menu();
         //角色ID
         $roleId = Yii::$app->request->get('id');
@@ -60,11 +61,10 @@ class Access extends \yii\db\ActiveRecord
         $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
 
         $result = $adminMenuModel->menuCache();
-        //var_dump($result);exit();
 
         $newMenus      = [];
-        //$privilegeData = $AuthAccess->where(["role_id" => $roleId])->column("rule_name");//获取权限表数据
-        $privilegeData = Access::find()->where(["role_id" => $roleId])->select(['rule_name','id'])->all();
+
+        $privilegeData =  Yii::$app->db->createCommand("SELECT rule_name FROM access WHERE role_id=$roleId")->queryColumn();
 
         foreach ($result as $m) {
             $newMenus[$m['id']] = $m;

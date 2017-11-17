@@ -30,7 +30,7 @@ class BaseController extends Controller{
      */
     protected function error($message = '', $jumpUrl = '', $ajax = false)
     {
-        $this->dispatchJump($message, 0, $jumpUrl, $ajax);
+        $this->dispatchJump($message, false, $jumpUrl, $ajax);
     }
 
     /**
@@ -45,7 +45,7 @@ class BaseController extends Controller{
      */
     protected function success($message = '', $jumpUrl = '', $ajax = false)
     {
-        $this->dispatchJump($message, 1, $jumpUrl, $ajax);
+        $this->dispatchJump($message, true, $jumpUrl, $ajax);
     }
 
     /**
@@ -54,27 +54,27 @@ class BaseController extends Controller{
      * 调用模板显示 默认为public目录下面的success页面
      * 提示页面为可配置 支持模板标签
      * @param string $message 提示信息
-     * @param int $status 状态
+     * @param bool $code 状态
      * @param string $jumpUrl 页面跳转地址
      * @param mixed $ajax 是否为Ajax方式 当数字时指定跳转时间
      * @access private
      * @return void
      * ----------------------------------------------
      */
-    private function dispatchJump($message, $status = 1, $jumpUrl = '', $ajax = false)
+    private function dispatchJump($message, $code = true, $jumpUrl = '', $ajax = false)
     {
         $jumpUrl = !empty($jumpUrl) ? (is_array($jumpUrl) ? Url::toRoute($jumpUrl) : $jumpUrl) : '';
         if (true === $ajax || Yii::$app->request->isAjax) {// AJAX提交
             $data = is_array($ajax) ? $ajax : array();
-            $data['info'] = $message;
-            $data['status'] = $status;
+            $data['message'] = $message;
+            $data['code'] = $code;
             $data['url'] = $jumpUrl;
             $this->ajaxReturn($data);
         }
         // 成功操作后默认停留1秒
         $waitSecond = 3;
 
-        if ($status) { //发送成功信息
+        if ($code) { //发送成功信息
             $message = $message ? $message : '提交成功';// 提示信息
             // 默认操作成功自动返回操作前页面
             echo $this->renderFile(Yii::$app->params['action_success'], [

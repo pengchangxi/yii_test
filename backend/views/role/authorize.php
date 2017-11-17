@@ -11,6 +11,7 @@ use common\widgets\JsBlock;
 ?>
 
 <?php $form = ActiveForm::begin([
+    'id' => 'role_authorize',
     'options'=>['class' => 'form form-horizontal'],
 
 ]); ?>
@@ -72,20 +73,20 @@ use common\widgets\JsBlock;
         }
     }
 
-    $("#form-role_allocation").validate({
+    $("#role_authorize").validate({
         onkeyup:false,
         focusCleanup:true,
         success:"valid",
         submitHandler:function(form){
             $(form).ajaxSubmit({
                 type: 'post', // 提交方式 get/post
-                url: '/admin/access/authorize', // 需要提交的 url
-                success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
-                    if(data.code!=1){
-                        layer.msg(data.msg,{icon:2,time:1000});
+                url: $(this).attr('action'), // 需要提交的 url
+                success: function(data) { // data 保存提交后返回的数据
+                    if(data.code==false){
+                        layer.msg(data.message,{icon:2,time:1000});
                         return false;
                     }
-                    parent.layer.msg(data.msg,{icon:1,time:1000});
+                    parent.layer.msg(data.message,{icon:1,time:1000});
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 }
