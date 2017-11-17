@@ -38,11 +38,10 @@ use common\widgets\JsBlock;
     'options'=>['class'=>'row cl'],
 ])->textInput(['maxlength' => true])->label('昵称：') ?>
 
-<?php if ($model->isNewRecord){
-    echo $form->field($model,'password_hash',[
+<?= $form->field($model,'password',[
         'options'=>['class'=>'row cl'],
-    ])->passwordInput(['placeholder'=>'请输入密码'])->label('密码:');
-}?>
+    ])->passwordInput(['placeholder'=>'请输入密码'])->label('密码:')
+?>
 
 <?= $form->field($model, 'role_id',[
     'options'=>['class'=>'row cl'],

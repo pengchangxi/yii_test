@@ -81,7 +81,6 @@ class MenuController extends BaseController
             $model->pid = $pid;
             $arr = Menu::find()->asArray()->all();
             $treeObj = new Tree($arr);
-            //var_dump($treeObj->getTree());exit();
             return $this->render('create', [
                 'model' => $model,
                 'treeArr' => $treeObj->getTree(),

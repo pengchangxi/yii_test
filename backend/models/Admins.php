@@ -11,7 +11,7 @@ use Yii;
  * @property string $username
  * @property string $email
  * @property string $mobile
- * @property string $realname
+ * @property string $password
  * @property string $nickname
  * @property string $password_hash
  * @property string $auth_key
@@ -43,7 +43,7 @@ class Admins extends \yii\db\ActiveRecord
             [['username'], 'unique'],
             ['username','required'],
             ['email','email'],
-            [['created_at', 'updated_at', 'last_login_time'], 'safe'],
+            [['created_at', 'updated_at', 'last_login_time','password'], 'safe'],
             [['role_id', 'status', 'errornum'], 'integer'],
             [['username', 'email', 'realname', 'nickname'], 'string', 'max' => 32],
             [['mobile'], 'string', 'max' => 12],
@@ -52,6 +52,11 @@ class Admins extends \yii\db\ActiveRecord
             [['last_login_ip'], 'string', 'max' => 15],
 
         ];
+    }
+
+    public function attributes(){
+        //添加属性
+        return array_merge(parent::attributes(),['password']);
     }
 
     /**
@@ -64,7 +69,7 @@ class Admins extends \yii\db\ActiveRecord
             'username' => '用户名',
             'email' => 'Email',
             'mobile' => '手机',
-            'realname' => '真实姓名',
+            'password' => '密码',
             'nickname' => '昵称',
             'password_hash' => 'Password Hash',
             'auth_key' => 'Auth Key',
@@ -84,12 +89,31 @@ class Admins extends \yii\db\ActiveRecord
         return $this->hasOne(Role::className(), ['id' => 'role_id']);
     }
 
+    /**
+     * 生成加密后的密码
+     * @param [string] $password [用户密码]
+     */
+    public function setPassword($password) {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
+     * 生成auth_key
+     * @return [type] [description]
+     */
+    public function generateAuthKey() {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
     public function beforeSave($insert)
     {
         if(parent::beforeSave($insert)) {
+            if ($this->password){
+                $this->password_hash = Yii::$app->security->generatePasswordHash($this->password);
+                $this->generateAuthKey();
+            }
+            unset($this->password);
             if($insert) {
-                $this->password_hash = Yii::$app->security->generatePasswordHash($this->password_hash);
-                $this->auth_key = Yii::$app->security->generateRandomString();
                 $this->created_at = time();
             }
             else {

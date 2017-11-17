@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'url:url',
             [
                 'attribute' => 'ismenu',
+                'label' => '是否菜单',
                 'content' => function($model) {
                     return $model['ismenu'] == 1 ?
                         Html::tag('span','是',['class'=>'label label-success radius']) :
@@ -52,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'islog',
+                'label' => '是否日志',
                 'content' => function($model){
                     return $model['islog'] == 1 ?
                         Html::tag('span','是',['class'=>'label label-success radius']) :
@@ -60,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'status',
+                'label' => '状态',
                 'content' => function($model){
                     return $model['status'] == 1 ?
                         Html::tag('span','显示',['class'=>'label label-success radius']) :
