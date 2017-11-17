@@ -46,8 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'label' => '状态',
-                'value' => function($model) {
-                    return $model['status'] == 1 ? '启用' : '停用';
+                'content' => function($model) {
+                    return $model['status'] == 1 ?
+                        Html::tag('span','启用',['class'=>'label label-success radius']) :
+                        Html::tag('span','停用',['class'=>'label label-warning radius']);
                 },
             ],
             'desc',
@@ -57,26 +59,41 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{authorize} {update} {delete}',
                 'buttons'=>[
                     'authorize' =>function($url,$model,$key){
+                    if ($model['id']==1){
+                        return Html::a('<font color="gray"><i class="Hui-iconfont">&#xe63f;</i>权限设置</font>', 'javascript:;', [
+                            'title'=>'权限设置',]);
+                    }else{
                         return Html::a('<i class="Hui-iconfont">&#xe63f;</i>权限设置', 'javascript:;', [
                             'title'=>'权限设置',
                             'onclick'=>"show('权限设置','".Url::toRoute(['role/authorize', 'id' => $model["id"]])."','','680')",
                             'data-method' => 'post',
                             'data-pjax'=>'0']);
 
+                        }
                     },
                     'update' => function ($url, $model, $key) {
-                        return Html::a('<i class="Hui-iconfont">&#xe6df;</i>编辑', 'javascript:;', [
-                            'title'=>'编辑',
-                            'onclick'=>"show('编辑','".Url::toRoute(['role/update', 'id' => $model["id"]])."','','510')",
-                            'data-method' => 'post',
-                            'data-pjax'=>'0']);
+                        if ($model['id']==1){
+                            return Html::a('<font color="gray"><i class="Hui-iconfont">&#xe6df;</i>编辑</font>', 'javascript:;', [
+                                'title'=>'编辑',]);
+                        }else{
+                            return Html::a('<i class="Hui-iconfont">&#xe6df;</i>编辑', 'javascript:;', [
+                                'title'=>'编辑',
+                                'onclick'=>"show('编辑','".Url::toRoute(['role/update', 'id' => $model["id"]])."','','510')",
+                                'data-method' => 'post',
+                                'data-pjax'=>'0']);
+                        }
                     },
                     'delete'=> function ($url, $model, $key){
-                        return  Html::a('<i class="Hui-iconfont">&#xe6e2;</i>删除', 'javascript:;',[
-                            'title'=>'删除',
-                            'onclick'=>"del(this,'".Url::toRoute(['role/delete', 'id' => $model["id"]])."')" ,
-                            'data-method'=>'post',              //POST传值
-                        ] ) ;
+                        if ($model['id']==1){
+                            return  Html::a('<font color="gray"><i class="Hui-iconfont">&#xe6e2;</i>删除</font>', 'javascript:;',[
+                                'title'=>'删除',] ) ;
+                        }else{
+                            return  Html::a('<i class="Hui-iconfont">&#xe6e2;</i>删除', 'javascript:;',[
+                                'title'=>'删除',
+                                'onclick'=>"del(this,'".Url::toRoute(['role/delete', 'id' => $model["id"]])."')" ,
+                                'data-method'=>'post',              //POST传值
+                            ] ) ;
+                        }
                     },
                 ],
 

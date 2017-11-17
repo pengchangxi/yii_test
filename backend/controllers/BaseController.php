@@ -20,36 +20,6 @@ class BaseController extends Controller{
 
     /**
      * ----------------------------------------------
-     * 操作错误跳转的快捷方法
-     * @access protected
-     * @param string $message 错误信息
-     * @param string $jumpUrl 页面跳转地址
-     * @param mixed $ajax 是否为Ajax方式 当数字时指定跳转时间
-     * @return void
-     * -----------------------------------------------
-     */
-    protected function error($message = '', $jumpUrl = '', $ajax = false)
-    {
-        $this->dispatchJump($message, false, $jumpUrl, $ajax);
-    }
-
-    /**
-     * ----------------------------------------------
-     * 操作成功跳转的快捷方法
-     * @access protected
-     * @param string $message 提示信息
-     * @param string $jumpUrl 页面跳转地址
-     * @param mixed $ajax 是否为Ajax方式 当数字时指定跳转时间
-     * @return void
-     * ----------------------------------------------
-     */
-    protected function success($message = '', $jumpUrl = '', $ajax = false)
-    {
-        $this->dispatchJump($message, true, $jumpUrl, $ajax);
-    }
-
-    /**
-     * ----------------------------------------------
      * 默认跳转操作 支持错误导向和正确跳转
      * 调用模板显示 默认为public目录下面的success页面
      * 提示页面为可配置 支持模板标签
@@ -92,8 +62,37 @@ class BaseController extends Controller{
                 'jumpUrl' => $jumpUrl,
             ]);
         }
-        //Yii::$app->end();
         exit;
+    }
+
+    /**
+     * ----------------------------------------------
+     * 操作成功跳转的快捷方法
+     * @access protected
+     * @param string $message 提示信息
+     * @param string $jumpUrl 页面跳转地址
+     * @param mixed $ajax 是否为Ajax方式 当数字时指定跳转时间
+     * @return void
+     * ----------------------------------------------
+     */
+    protected function success($message = '', $jumpUrl = '', $ajax = false)
+    {
+        $this->dispatchJump($message, true, $jumpUrl, $ajax);
+    }
+
+    /**
+     * ----------------------------------------------
+     * 操作错误跳转的快捷方法
+     * @access protected
+     * @param string $message 错误信息
+     * @param string $jumpUrl 页面跳转地址
+     * @param mixed $ajax 是否为Ajax方式 当数字时指定跳转时间
+     * @return void
+     * -----------------------------------------------
+     */
+    protected function error($message = '', $jumpUrl = '', $ajax = false)
+    {
+        $this->dispatchJump($message, false, $jumpUrl, $ajax);
     }
 
     /**
@@ -109,7 +108,7 @@ class BaseController extends Controller{
         // 返回JSON数据格式到客户端 包含状态信息
         header('Content-Type:application/json; charset=utf-8');
         echo json_encode($data);
-        //Yii::$app->end();
+
         exit;
     }
 }
