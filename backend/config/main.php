@@ -10,6 +10,7 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
+    'defaultRoute' => 'index/index',   //默认路由
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [

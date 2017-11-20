@@ -6,13 +6,15 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Signs';
+$this->title = 'Sign Logs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="page-container">
+<div class="sign-log-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('签到', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Sign Log', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -21,10 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'uid',
-            'sign_count',
-            'last_sign_time:datetime',
-            'sign_history:ntext',
+            'create_at',
+            'integral',
 
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
