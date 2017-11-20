@@ -142,6 +142,7 @@ class RoleController extends BaseController
         }
     }
 
+    //角色授权
     public function actionAuthorize()
     {
         if (Yii::$app->request->post()) {
@@ -156,7 +157,6 @@ class RoleController extends BaseController
                 foreach ($_POST['menuId'] as $menuId) {
                     $menuModel = new Menu();
                     $menu = $menuModel::find()->select(['url'])->where(["id" => $menuId])->one();
-                    //var_dump($menu);exit();
                     if ($menu) {
                         $name   = $menu['url'];
                         Yii::$app->db->createCommand()->insert('access', [
@@ -179,6 +179,5 @@ class RoleController extends BaseController
         return $this->render('authorize', [
             'category' => $category,
         ]);
-
     }
 }

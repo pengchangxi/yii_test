@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Menu;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\Url;
@@ -12,11 +13,57 @@ class BaseController extends Controller{
     public function beforeAction($action)
     {
         if (!Yii::$app->user->isGuest) {//用户已登录
+            $access = $this->get_menu();
+            $session = Yii::$app->session;
+            $session->set('access',$access);
             return true;
         }else{
             return $this->redirect('/site/login')->send();
         }
     }
+
+    //获取主菜单
+    protected function get_menu(){
+        $modules = $roleMenu = $pmenu = array();
+        $map['ismenu']=1;
+        $map['status']=1;
+        $roleid = Yii::$app->user->identity->role_id;
+        //var_dump($roleid);exit();
+        $menuModel = new Menu();
+        $rs=$menuModel::find()->where($map)->asArray()->all();
+        if($roleid == '1'){
+            foreach($rs as $row){
+                if($row['level'] == 1){
+                    $modules[$row['pid']][] = $row;//子菜单分组
+                }
+                if($row['level'] == 0){
+                    $pmenu[$row['id']] = $row;//二级父菜单
+                }
+            }
+        }else{
+            $menu = new Menu();
+            $rs = $menu->getAccess($roleid);
+            foreach($rs as $row){
+                if($row['level'] == 1){
+                    $modules[$row['pid']][] = $row;//子菜单分组
+                }
+                if($row['level'] == 0){
+                    $pmenu[$row['id']] = $row;//二级父菜单
+                }
+            }
+        }
+        $keys = array_keys($modules);//导航菜单
+        //var_dump($pmenu);exit();
+        foreach($pmenu as $k => $val){
+            if(in_array($k,$keys)){
+                $val['submenu'] = $modules[$k];//子菜单
+                $roleMenu[] = $val;
+            }
+        }
+        return $roleMenu;
+    }
+
+
 
     /**
      * ----------------------------------------------

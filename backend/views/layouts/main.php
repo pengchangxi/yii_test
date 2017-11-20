@@ -64,23 +64,20 @@ AppAsset::register($this);
 </header>
 <aside class="Hui-aside">
     <div class="menu_dropdown bk_2">
-        <dl id="menu-admin">
-            <dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+    <?php if(\Yii::$app->session->has('access')){ ?>
+        <?php foreach(\Yii::$app->session->get('access') as $key=>$menus){?>
+        <dl id="menu-{$k}">
+            <dt><i class="Hui-iconfont <?php echo $menus['icon']; ?>"></i> <?php echo $menus['name']; ?><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul class="menu_list">
-                    <li><a data-href="<?=Url::to(['role/index'])?>" data-title="角色管理" href="<?=Url::to(['role/index'])?>">角色管理</a></li>
-                    <li><a data-href="<?=Url::to(['admins/index'])?>" data-title="管理员列表" href="<?=Url::to(['admins/index'])?>">管理员列表</a></li>
+                <?php foreach($menus['submenu'] as $ckey=>$cmenus){?>
+                    <li><a href="<?php echo $cmenus['url'] ;?>" data-href="<?php echo $cmenus['url'] ;?>" data-title="<?php echo $cmenus['name'] ;?>" ><?php echo $cmenus['name'] ;?></a></li>
+                <?php } ?>
                 </ul>
             </dd>
         </dl>
-        <dl id="menu-system">
-            <dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul class="menu_list">
-                    <li><a data-href="<?=Url::to(['menu/index'])?>" data-title="菜单管理" href="<?=Url::to(['menu/index'])?>">菜单管理</a></li>
-                </ul>
-            </dd>
-        </dl>
+        <?php } ?>
+    <?php }  ?>
     </div>
 </aside>
 <section class="Hui-article-box">

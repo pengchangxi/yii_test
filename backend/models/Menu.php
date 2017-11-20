@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use common\helpers\Tree;
 use yii\caching\Cache;
 
+
 /**
  * This is the model class for table "menu".
  *
@@ -83,12 +84,6 @@ class Menu extends \yii\db\ActiveRecord
     {
         $query = Menu::find();
 
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
         $arr = $query->asArray()->all();
         $treeObj = new Tree(\yii\helpers\ArrayHelper::toArray($arr));
         $treeObj->icon = ['&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─ ', '&nbsp;&nbsp;&nbsp;└─ '];
@@ -118,5 +113,19 @@ class Menu extends \yii\db\ActiveRecord
             $cache->set('Menu', $data,0);
         }
         return $data;
+    }
+
+    // 获取订单所属用户
+    public function getAccess($roleId)
+    {
+        //同样第一个参数指定关联的子表模型类名
+        //return $this->hasOne(Access::className(), ['url' => 'rule_name']);
+        $data = Menu::find()
+            ->leftJoin('access','menu.url=access.rule_name' )
+            ->where(['access.role_id' => $roleId,'menu.status'=>1])
+            //->orderBy(['user_comm.count_praise' => SORT_DESC])
+            ->asArray()->all();
+        return $data;
+
     }
 }
