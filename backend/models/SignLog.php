@@ -44,4 +44,13 @@ class SignLog extends \yii\db\ActiveRecord
             'integral' => 'Integral',
         ];
     }
+
+    //签到记录
+    public function addLog($uid,$integral){
+        $model = new SignLog();
+        $model->create_at = time();
+        $model->uid = $uid;
+        $model->integral = $integral;
+        return $model->save();
+    }
 }

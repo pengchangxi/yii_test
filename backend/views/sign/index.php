@@ -11,14 +11,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-container">
 
-    <p>
-        <?= Html::a('签到', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="cl pd-5 bg-1 bk-gray mt-20" style="margin-bottom: 6px">
+        <span class="l">
+            <a href="javascript:;" onclick="sign()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 签到</a>
+        </span>
+    </div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'uid',
             'sign_count',
@@ -28,3 +29,26 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 </div>
+<script type="text/javascript">
+
+    function sign(){
+        $.ajax({
+            type: 'post',
+            url: '/sign/create',
+            dataType: 'json',
+            success: function(data){
+                if (data.code == true){
+                    layer.msg(data.message, {icon: 1,time:1000});
+                    $(obj).parents("tr").remove();
+                }else {
+                    layer.alert(data.message, {icon: 2});
+                }
+            },
+            error:function(data) {
+                console.log(data.msg);
+            }
+        });
+    }
+
+
+</script>

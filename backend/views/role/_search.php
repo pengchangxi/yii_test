@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 <div class="text-c">
 
     <?php $form = ActiveForm::begin([
-        'options'=>['class' => 'form-inline'],
+        'options'=>['class' => 'form-inline','style'=>'margin-top:50px'],
         'fieldConfig' => [
             'template' => "{label}\n{input}",
             'inputOptions' =>['class' =>'form-control input-width-medium'],

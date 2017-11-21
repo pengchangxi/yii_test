@@ -12,6 +12,7 @@ $this->title = 'Roles';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-container">
+    <div id="iframe_box" class="Hui-article" style="margin-top: 20px">
 
     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -100,6 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    </div>
 </div>
 
 <script type="text/javascript">

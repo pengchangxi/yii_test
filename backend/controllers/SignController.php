@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\SignLog;
 use Yii;
 use backend\models\Sign;
 use yii\data\ActiveDataProvider;
@@ -12,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * SignController implements the CRUD actions for Sign model.
  */
-class SignController extends Controller
+class SignController extends BaseController
 {
     /**
      * @inheritdoc
@@ -64,15 +65,57 @@ class SignController extends Controller
     public function actionCreate()
     {
         $model = new Sign();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $uid = Yii::$app->user->identity->id;
+        $model->uid = $uid;
+        $model->last_sign_time = strtotime(date("Y-m-d",time()));
+        $sign_history = array(strtotime(date("Y-m-d",time())));
+        $model->sign_history =json_encode($sign_history,true);
+        $sign = Sign::find()->where(['uid'=>$uid])->one();
+        if ($sign){//之前有签到过
+            $today = strtotime(date("Y-m-d",time()));//当前时间
+            if ($today==$sign['last_sign_time']){
+                $this->error('不能重复签到');
+            }
+            $history = json_decode($sign['sign_history']);
+            array_push($history,$today);//在历史签到中插入一条数据
+            $sign->sign_history = json_encode($history,true);
+            if (round(($today-$sign['last_sign_time'])/3600/24)<=1){//判断是否为连续签到
+                $sign->sign_count = $sign['sign_count'] + 1;
+                if ($sign->sign_count==2){
+                    $integral = 10;
+                }else if ($sign->sign_count==3){
+                    $integral = 15;
+                }else if ($sign->sign_count>=4){
+                    $integral = 20;
+                }else {
+                    $integral = 5;
+                }
+            }else{
+                $integral = 5;
+                $sign->sign_count = 1;
+            }
+            $signLog = new SignLog();
+            $sign->last_sign_time = $today;
+            if ($sign->save()){
+                $signLog->addLog($uid,$integral);
+                $this->success('签到成功','index');
+            }else{
+                $this->error('签到失败');
+            }
+        }else{
+            $model->sign_count = 1;
+            if ($model->save()){
+                $signLog = new SignLog();
+                $integral = 5;
+                $signLog->addLog($uid,$integral);
+                $this->success('签到成功','index');
+            }else{
+                $this->error('签到失败');
+            }
         }
     }
+
+
 
     /**
      * Updates an existing Sign model.

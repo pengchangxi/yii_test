@@ -47,6 +47,9 @@ class RoleSearch extends Role
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            /*'pagination' => [
+                'pageSize' => 15,//每页条数
+            ],*/
             'sort'=>[
                 'defaultOrder'=>[
                     'id'=>SORT_DESC,
