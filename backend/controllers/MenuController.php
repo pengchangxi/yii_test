@@ -71,6 +71,9 @@ class MenuController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format=Response::FORMAT_JSON;
             if ($model->validate()){
+                if (!$model->pid){
+                    $model->pid = 0;
+                }
                 $model->save();
                 return ['code'=>true,'message'=>'添加成功','url'=>'index'];
             }else{

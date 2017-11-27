@@ -34,6 +34,7 @@ class Menu extends \yii\db\ActiveRecord
     }
 
     /**
+     * 规则
      * @inheritdoc
      */
     public function rules()
@@ -46,6 +47,7 @@ class Menu extends \yii\db\ActiveRecord
     }
 
     /**
+     * 属性标签
      * @inheritdoc
      */
     public function attributeLabels()
@@ -118,12 +120,9 @@ class Menu extends \yii\db\ActiveRecord
     // 获取订单所属用户
     public function getAccess($roleId)
     {
-        //同样第一个参数指定关联的子表模型类名
-        //return $this->hasOne(Access::className(), ['url' => 'rule_name']);
         $data = Menu::find()
             ->leftJoin('access','menu.url=access.rule_name' )
             ->where(['access.role_id' => $roleId,'menu.status'=>1])
-            //->orderBy(['user_comm.count_praise' => SORT_DESC])
             ->asArray()->all();
         return $data;
 

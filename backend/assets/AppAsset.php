@@ -10,7 +10,7 @@ use yii\web\AssetBundle;
 class AppAsset extends AssetBundle
 {
     public $jsOptions = array(
-        'position' => \yii\web\View::POS_HEAD
+        'position' => \yii\web\View::POS_HEAD //为使JavaScript文件包含在页面head区域
     );
     public $basePath = '@webroot';
     public $baseUrl = '@web';

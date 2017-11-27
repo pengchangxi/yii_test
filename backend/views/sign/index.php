@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'summary'=>'',
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
@@ -39,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             success: function(data){
                 if (data.code == true){
                     layer.msg(data.message, {icon: 1,time:1000});
-                    $(obj).parents("tr").remove();
+                    window.location.reload();
                 }else {
                     layer.alert(data.message, {icon: 2});
                 }

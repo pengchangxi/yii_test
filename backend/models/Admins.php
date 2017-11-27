@@ -61,6 +61,7 @@ class Admins extends \yii\db\ActiveRecord
         return array_merge(parent::attributes(),['password']);
     }
 
+    //应用场景
     public function scenarios() {
         $scenarios = parent::scenarios();
         $scenarios['create'] = ['username', 'email', 'password'];

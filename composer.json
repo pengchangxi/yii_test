@@ -18,7 +18,8 @@
         "yiisoft/yii2": "~2.0.6",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "ivan-chkv/yii2-jui-datepicker": "^2.0"
+        "ivan-chkv/yii2-jui-datepicker": "^2.0",
+        "sjaakp/yii2-illustrated-behavior": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

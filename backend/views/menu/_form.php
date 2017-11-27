@@ -25,6 +25,7 @@ use common\widgets\JsBlock;
         'options'=>['class'=>'row cl'],
     ])->textInput(['maxlength' => true])->label('节点名称：') ?>
 
+
     <?= $form->field($model, 'pid',[
         'options'=>['class'=>'row cl'],
         'inputOptions' =>['style'=>'width:auto'],

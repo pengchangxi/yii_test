@@ -42,9 +42,9 @@ class Sign extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'uid' => 'Uid',
-            'sign_count' => 'Sign Count',
-            'last_sign_time' => 'Last Sign Time',
-            'sign_history' => 'Sign History',
+            'sign_count' => '连续签到次数',
+            'last_sign_time' => '最后签到时间',
+            'sign_history' => '签到历史',
         ];
     }
 }
